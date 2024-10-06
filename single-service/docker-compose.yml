@@ -1,0 +1,7 @@
+services:
+  loadtest-single-service-app:
+    image: loadtest-single-service-app
+    ports:
+      - "5881:5000"
+    volumes:
+      - ./app:/app
