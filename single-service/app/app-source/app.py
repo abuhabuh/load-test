@@ -48,9 +48,7 @@ def get_fibonacci():
     if n is None:
         return jsonify({"error": "Please provide an integer asdf n."}), 400
 
+    time.sleep(n)
+
     result = fibonacci(n)
     return jsonify({"fibonacci": result})
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', use_reloader=True, debug=True, threaded=False)

@@ -3,5 +3,15 @@ services:
     image: loadtest-single-service-app
     ports:
       - "5881:5000"
+      - "9191:9191"
     volumes:
       - ./app:/app
+    # --processes and --threads set to 1 to make app single threaded
+    # --listen = 10 and net.core.somaxconn = 10 both need to be set for OS
+    #   limit to match Docker container limit, BUT still doesn't work to limit
+    #   incoming connections because there's some automatic backlog buffer or
+    #   something.
+    command: uwsgi --stats :9191 --stats-http --http :5000 --wsgi-file app-source/app.py --callable app --master --processes 1 --threads 1 --py-autoreload 1 --listen 100
+    # command: uwsgi --ini /app/app-config/uwsgi.ini
+    sysctls:
+      net.core.somaxconn: 250

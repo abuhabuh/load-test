@@ -1,1 +1,3 @@
+# Requirements file for scripts
 aiohttp
+requests
