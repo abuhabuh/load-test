@@ -7,7 +7,7 @@ import aiohttp
 async def fetch_fibonacci(session, url) -> str:
     try:
         print(f'sending requests')
-        async with session.get(url) as response:
+        async with session.get(url, timeout=300) as response:
             return f'status: {response.status}'
     except TimeoutError as e:
         return f'timeout: client side'
@@ -20,10 +20,12 @@ async def main():
     url = f'http://localhost:5881/fibonacci?n=2'  # Adjust the URL as needed
 
     # Define the number of concurrent requests to send
-    num_requests = 1000
+    num_requests = 100
+    max_aiohttp_concurrency = 300
+    connector = aiohttp.TCPConnector(limit=max_aiohttp_concurrency)
 
     start_time = asyncio.get_event_loop().time()
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=connector) as session:
         tasks = [fetch_fibonacci(session, url) for _ in range(num_requests)]
         results = await asyncio.gather(*tasks)
 

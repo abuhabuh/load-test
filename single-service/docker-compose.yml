@@ -11,7 +11,6 @@ services:
     #   limit to match Docker container limit, BUT still doesn't work to limit
     #   incoming connections because there's some automatic backlog buffer or
     #   something.
-    command: uwsgi --stats :9191 --stats-http --http :5000 --wsgi-file app-source/app.py --callable app --master --processes 1 --threads 1 --py-autoreload 1 --listen 100
-    # command: uwsgi --ini /app/app-config/uwsgi.ini
+    command: uwsgi --stats :9191 --stats-http --http :5000 --wsgi-file app-source/app.py --callable app --master --processes 1 --threads 1 --py-autoreload 1 --listen 300
     sysctls:
-      net.core.somaxconn: 250
+      net.core.somaxconn: 300

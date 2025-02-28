@@ -1,5 +1,8 @@
 FROM python:3.12
 
+# Install tcpdump
+RUN apt-get update && apt-get install -y tcpdump
+
 # Create the /app directory and set it as the working directory
 RUN mkdir -p /app
 WORKDIR /app
